@@ -1,19 +1,18 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ClientContext } from '../Context/ClientContext';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Loder from '../components/Loder';
+import { AiTwotoneDelete } from 'react-icons/ai';
 
 function Client() {
+  const { clients, setClients } = useContext(ClientContext);
 
-    
-  const clients = useContext(ClientContext);
-
-  console.log(clients)
+  
   if (!clients) {
-    return <Loder/>
+    return <Loder />
   }
 
   return (
@@ -23,23 +22,23 @@ function Client() {
           <h1 className='mb-4'>Clients</h1>
         </div>
         <div className='col-md-9 text-right'>
-          <Button variant="primary">Home</Button>{' '}
-          <Button variant='primary'>Invoice</Button>
+          <Link to={`/`}><Button variant="primary">Home</Button>{' '}</Link>
+          <Link to={`/invoice`}><Button variant="primary">Invoice</Button>{' '}</Link>
         </div>
       </div>
 
       <nav className="navbar">
-                    <div className="logo">
-                        <a href="/">M.I.S</a>
-                    </div>
-                    <div className="search-bar">
-                        <input type="text" placeholder="Search"  />
-                        <button type="submit">Search</button>
-                    </div>
-                    <div className="add-client">
-                        <button>Add Client</button>
-                    </div>
-                </nav>
+        <div className="logo">
+          <a href="/">M.I.S</a>
+        </div>
+        <div className="search-bar">
+          <input type="text" placeholder="Search" />
+          <button type="submit">Search</button>
+        </div>
+        <div className="add-client">
+          <Link to={`/client/new`}><Button>Add Client</Button></Link>
+        </div>
+      </nav>
 
       {/* table */}
       <Table striped bordered hover>
@@ -67,7 +66,25 @@ function Client() {
                   </div>
                 </td>
                 <td>{client.email}</td>
-                <td>{ }</td>
+                <td>
+                  <span>
+                    <AiTwotoneDelete
+                      className="icon"
+                      style={{
+                        top: '2px',
+                        right: '2px',
+                        marginLeft: "15px",
+                        color: "red",
+
+                      }}
+                      size="27px"
+                      color="blue"
+                      //onClick={() => handleDeleteClient(client._id)}
+
+                    // onClick={handleExit}                                                         
+                    /></span>
+
+                </td>
                 <td>{ }</td>
               </>
 

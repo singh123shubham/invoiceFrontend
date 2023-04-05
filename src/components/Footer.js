@@ -3,16 +3,22 @@ import React from 'react'
 const Footer = () => {
   return (
     <>
-     {/*content-wrapper */}
-  <footer className="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div className="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
-    </div>
-  </footer>   
-  
-    
+      {/*content-wrapper */}
+      <footer className="main-footer">
+        <div className='container'>
+          <div className='row'>
+            <div className='col-md-12'>
+              <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+              All rights reserved.
+              <div className="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.2.0
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+
     </>
   )
 }

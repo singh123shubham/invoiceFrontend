@@ -5,6 +5,8 @@ export const ClientContext = createContext();
 
 export const ClientProvider = ({ children }) => {
   const [clients, setClients] = useState([]);
+  const totalClient = clients.length
+  console.log(totalClient)
   console.log(clients)
 
   useEffect(() => {
@@ -21,7 +23,7 @@ export const ClientProvider = ({ children }) => {
 }, [])
 
   return (
-    <ClientContext.Provider value={clients}>
+    <ClientContext.Provider value={{clients,setClients}}>
       {children}
     </ClientContext.Provider>
   );
