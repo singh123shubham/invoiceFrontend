@@ -2,11 +2,14 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
+import { IoMdAddCircleOutline } from 'react-icons/io';
+import { TiDeleteOutline } from 'react-icons/ti';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-function AddInvoice() {
-    const {_id}= useParams()
+function AddInvoice({ id }) {
+    const { _id } = useParams()
     const [formData, setFormData] = useState({
         invoiceNumber: '',
         amount: '',
@@ -21,7 +24,7 @@ function AddInvoice() {
         totalAmount: '',
         paymentDeadline: ''
     });
- console.log(formData.invoiceNumber)
+    console.log(formData.invoiceNumber)
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
@@ -48,23 +51,43 @@ function AddInvoice() {
         });
     };
 
-    const [MInvoice, setInvoice] = useState([]);
+    const handleDeleteItem = (index) => {
+        const newItems = [...formData.items];
+        newItems.splice(index, 1);
+        setInvoice({
+            ...formData,
+            items: newItems
+        });
+        toast('Item delete successfully!', {
+            position: toast.POSITION.TOP_CENTER
+        });
 
-    useEffect(()=>{
-        const fetchData = async() =>{
-            const tres = await fetch(`https://invoicemanagementsystemapi-production.up.railway.app/api/v1/invoice/${_id}`)
-            const AresJson = await tres.json()
-            setInvoice(AresJson.invoice);
-            console.log(AresJson.invoice);
+    };
+
+    const [invoice, setInvoice] = useState([]);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await fetch(`https://invoicemanagementsystemapi-production.up.railway.app/api/v1/invoice/${_id}`)
+            const resJson = await res.json()
+            setInvoice(resJson.invoice)
         }
+        fetchData()
+    }, [_id])
 
-        fetchData();
-    },[_id])
-    console.log(MInvoice.status);
-
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // Check if any field is blank
+        const isFormIncomplete = Object.values(formData).some(value => value === '');
+
+        if (isFormIncomplete) {
+            toast.error('Please fill in all fields',{
+                position: toast.POSITION.TOP_CENTER
+            });
+            return;
+        }
 
         const requestOptions = {
             method: 'POST',
@@ -72,11 +95,24 @@ function AddInvoice() {
             body: JSON.stringify(formData)
         };
 
-        fetch('https://invoicemanagementsystemapi-production.up.railway.app/api/v1/invoice/new', requestOptions)
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
+        try {
+            const response = await fetch('https://invoicemanagementsystemapi-production.up.railway.app/api/v1/invoice/new', requestOptions);
+            const data = await response.json();
+            console.log(data);
+            toast.success('Invoice created successfully',{
+                position: toast.POSITION.TOP_CENTER
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error('Error creating invoice',{
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
     };
+
+
+
+
 
 
 
@@ -85,10 +121,10 @@ function AddInvoice() {
         <>
             <div className='row pt-3 pl-5 pr-4 hdrtop' style={{ background: "#efefef" }}>
                 <div className='col-md-3'>
-                    <h1 className='mb-4'>Invoice</h1>
+                    <h1 className='mb-4'> Add Invoice</h1>
                 </div>
                 <div className='col-md-9 text-right'>
-                    <Button variant="primary">Home</Button>{' '}
+                    <Link to={`/`}><Button variant="primary">Home</Button>{' '}</Link>
                     <Link to={`/invoice`}> <Button variant='primary'>Invoice</Button></Link>
                 </div>
             </div>
@@ -123,7 +159,7 @@ function AddInvoice() {
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div className='col-md-6'>
                             <div className='form-group'>
                                 <label>Total Amount:</label>
@@ -141,32 +177,57 @@ function AddInvoice() {
                             <div key={index}>
                                 <h5>Item{index + 1}</h5>
                                 <div className='row'>
-                                    <div className='col-md-4'>
+                                    <div className='col-md-3'>
                                         <div className='form-group'>
                                             <label>Description:</label>
                                             <input type="text" name="description" className='form-control' value={item.description} onChange={(event) => handleItemChange(event, index)} />
                                         </div>
                                     </div>
-                                    <div className='col-md-4'>
+                                    <div className='col-md-3'>
                                         <div className='form-group'>
                                             <label>Quantity:</label>
                                             <input type="number" name="quantity" className='form-control' value={item.quantity} onChange={(event) => handleItemChange(event, index)} />
                                         </div>
                                     </div>
-                                    <div className='col-md-4'>
+                                    <div className='col-md-3'>
                                         <div className='form-group'>
                                             <label>Amount:</label>
                                             <input type="number" name="amount" className='form-control' value={item.amount} onChange={(event) => handleItemChange(event, index)} />
                                         </div>
                                     </div>
+                                    <div className='col-md-3'>
+                                        <IoMdAddCircleOutline
+                                            style={{
+                                                top: '10px',
+                                                float: "right"
+
+                                            }}
+                                            size="27px"
+                                            color="green"
+                                            onClick={handleAddItem}
+
+                                        />
+                                        <TiDeleteOutline
+                                            style={{
+                                                top: '10px',
+                                                right: '0px',
+                                                marginLeft: "1px",
+                                            }}
+                                            size="27px"
+                                            color="red"
+                                            onClick={(index) => handleDeleteItem(index)}
+                                        />
+                                    </div>
+
                                 </div>
                             </div>
                         ))}
-                        <button className='btn btn-primary mt-1 mb-2' onClick={handleAddItem}>+</button>
-                        
-                        <button type="button" class="btn btn-primary">Primary</button>
+
+
 
                     </div>
+                    <button type="submit" class="btn btn-primary float-md-right">AddInvoice</button>
+
                 </form>
             </div>
         </>

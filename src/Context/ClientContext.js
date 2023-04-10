@@ -6,8 +6,8 @@ export const ClientContext = createContext();
 export const ClientProvider = ({ children }) => {
   const [clients, setClients] = useState([]);
   const totalClient = clients.length
-  console.log(totalClient)
-  console.log(clients)
+  // console.log(totalClient)
+  // console.log(clients)
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -20,6 +20,7 @@ export const ClientProvider = ({ children }) => {
         }
     }
     fetchClients()
+
 }, [])
 
   return (

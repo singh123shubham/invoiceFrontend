@@ -98,7 +98,7 @@ footer {
   animation: zoom-in 0.5s ease-in-out 0s 1 normal forwards, rotate 2s linear infinite;
 }
 
-@keyframes zoom-in {
+/* @keyframes zoom-in {
   from {
     transform: scale(0);
   }
@@ -114,7 +114,7 @@ footer {
   to {
     transform: rotate(360deg);
   }
-}
+} */
 
 
 .login-container {
@@ -329,15 +329,64 @@ tfoot td {
 
 
 .main-footer {
-  /* position: absolute; */
+  position: fixed;
   width: 100%;
   bottom: 0;
   padding: 10px 20px;
-  /* display: block; */
-  /* align-items: flex-end; */
-  /* justify-content: end; */
   display: block;
-}
+  }
 body {
   /* overflow: hidden; */
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination li {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.pagination a{
+    text-decoration: none;
+}
+
+.pagination li a {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #333;
+}
+
+.pagination li.active a {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+
+.login-form {
+  /* Other styles */
+  transition: transform 0.2s ease-in-out;
+}
+
+.login-form:hover {
+  transform: scale(1.05);
+}
+
+button[type="submit"] {
+  /* Other styles */
+  transition: background-color 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+  background-color: #6199ec;
+}
+
+button[type="submit"]:active {
+  background-color: #6199ec;
+}
+

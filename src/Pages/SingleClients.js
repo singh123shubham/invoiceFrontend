@@ -11,7 +11,7 @@ function SingleClient() {
   const { id } = useParams();
   const [client, setClient] = useState(clients[0]);
   // Set an initial value for client to avoid null error when rendering
-  console.log(client._id)
+  console.log(client)
   useEffect(() => {
     const fetchClient = async () => {
       try {

@@ -11,8 +11,12 @@ import SingleInvoice from './Pages/SingleInvoice';
 import EditInvoice from './Pages/EditInvoice';
 import AddInvoice from './Pages/AddInvoice';
 import Loder from './components/Loder';
-import Footer from './components/Footer'; 
+import Footer from './components/Footer';
 import AddClient from './Pages/AddClient';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ClientInvoice from './Pages/ClientInvoice';
+import EditClient from './Pages/EditClient';
 
 const App = () => {
 
@@ -30,7 +34,7 @@ const App = () => {
   return (
     <>
       {isLoading ? (
-        <div><Loder/></div>
+        <div><Loder /></div>
       ) : (
         <BrowserRouter>
           <Sidebar>
@@ -43,14 +47,22 @@ const App = () => {
                 path="/invoice/editinvoice/:id"
                 element={<EditInvoice />}
               />
+               <Route
+                exact
+                path="/client/editclient/:id"
+                element={<EditClient/>}
+              />
               <Route exact path="/invoice/new/" element={<AddInvoice />} />
               <Route path="/client" element={<Clients />} />
-              <Route exact path="/client/new/" element={<AddClient/>} />
+              <Route exact path="/client/new/" element={<AddClient />} />
               <Route exact path="/client/:id" element={<SingleClient />} />
+              <Route exact path="/client/clientinvoice/:id" element={<ClientInvoice/>} />
+
               <Route path="/login" element={<Login />} />
             </Routes>
           </Sidebar>
-          <Footer />
+          <ToastContainer />
+          {/* <Footer /> */}
         </BrowserRouter>
       )}
     </>

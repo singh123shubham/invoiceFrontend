@@ -7,11 +7,14 @@ import Loader from '../components/Loder';
 
 function SingleInvoice() {
   const { invoices } = useContext(ClientContext);
+  const { clients } = useContext(ClientContext);
+
   const { id } = useParams();
   const [invoice, setInvoice] = useState(invoices);
+  // const clientid = invoice.clientId._id
+  // console.log(clientid)
 
 
-  // console.log(invoice.invoiceNumber)
   useEffect(() => {
     const fetchInvoice = async () => {
       try {
